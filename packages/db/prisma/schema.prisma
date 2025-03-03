@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//rename rooms with spaces....
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  username  String     @unique
+  password  String
+  firstName String
+  lastName  String?
+  messages  Messages[]
+  rooms     Rooms[] 
+  visitedSpaces visitedSpaces[] //include recently visited rooms "recentlyVisited spaces"
+}
+
+model visitedSpaces {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId],references: [id])
+  roomId Int
+  room Rooms @relation(fields: [roomId],references: [id])
+  lastVisited DateTime @updatedAt
+}
+
+model Messages {
+  id      Int     @id @default(autoincrement())
+  message String
+  room    String
+  sender  String
+  read    String[]
+  userId  Int
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model Maps {
+  id      Int         @id @default(autoincrement())
+  name    String      @unique
+  tileSet String
+  rooms   Rooms[]
+  layers  MapLayers[]
+  assets  MapAssets[]
+}
+
+model Rooms {
+  id     Int    @id @default(autoincrement())
+  room   String
+  mapId  Int
+  map    Maps   @relation(fields: [mapId], references: [id])
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+  visitedSpaces visitedSpaces[]
+}
+
+model MapLayers {
+  id    Int    @id @default(autoincrement())
+  name  String
+  depth Int
+  mapId Int
+  map   Maps   @relation(fields: [mapId], references: [id])
+}
+
+model MapAssets {
+  id    Int    @id @default(autoincrement())
+  path  String @unique
+  name  String @unique
+  mapId Int
+  map   Maps   @relation(fields: [mapId], references: [id])
+}
+
+model SpriteAssets {
+  key         Int       @id @default(autoincrement())
+  path        String
+  frameWidth  Int
+  frameHeight Int
+  sprites     Sprites[]
+}
+
+model Sprites {
+  id           Int                @id @default(autoincrement())
+  initialState Int
+  animations   SpriteAnimations[]
+  key          Int
+  keyRelation  SpriteAssets       @relation(fields: [key], references: [key])
+}
+
+enum AnimationKeys {
+  left
+  right
+  up
+  down
+}
+
+model SpriteAnimations {
+  id       Int           @id @default(autoincrement())
+  key      AnimationKeys
+  frames   Int[]
+  spriteId Int
+  sprite   Sprites       @relation(fields: [spriteId], references: [id])
+}
+
+model Feedbacks {
+  id        Int      @id @default(autoincrement())
+  feedback  String
+  createdAt DateTime @default(now())
+}
