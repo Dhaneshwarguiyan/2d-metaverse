@@ -34,7 +34,6 @@ const Space = () => {
   const space = useSelector((state: RootState) => state.render.spaces);
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
-
   const getSpaces = async () => {
     try {
       const response = await axios.get(
@@ -95,6 +94,7 @@ const Space = () => {
             maps.map((map, key) => {
               return (
                 <Map
+                  room={map.id}
                   name={map.room}
                   id={map.id}
                   key={key}

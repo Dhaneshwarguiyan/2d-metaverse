@@ -73,20 +73,24 @@ export const deleteSpaces = async(req:Request,res:Response)=>{
     try {
       const { mapId,room } = req.body;
       const id = req.userId;
-      // const messages = prisma.messages.deleteMany({
-      //   where:{
-      //     room:`${room}${mapId}`
-      //   }
-      // })
-      const rooms  =  await prisma.rooms.delete({
+      const visitedSpaces = prisma.visitedSpaces.deleteMany({
+        where:{
+            roomId:room
+        }
+      })
+      const messages = prisma.messages.deleteMany({
+        where:{
+          room:Number(room)
+        }
+      })
+      const rooms = prisma.rooms.delete({
         where:{
           id:mapId,
           userId:Number(id)
         }
       })
-      // const response = await prisma.$transaction([messages,rooms])
-      // res.send(response);
-      res.send(rooms);
+      const response = await prisma.$transaction([messages,visitedSpaces,rooms])
+      res.send(response);
     } catch (error) {
       console.log(error);
     }

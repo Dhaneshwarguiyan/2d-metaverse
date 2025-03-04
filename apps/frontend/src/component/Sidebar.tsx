@@ -49,12 +49,6 @@ const Sidebar = ({ socket, room }: { socket: WebSocket; room: string }) => {
     const messageEvent = (event: { data: string }) => {
       const parsedData = JSON.parse(event.data);
       if (parsedData && parsedData.type === "message") {
-        //creating notification if the tab is closed
-        // if (!messageDialog) {
-        //   setNewMessages((prev) => {
-        //     return prev + 1;
-        //   });
-        // }
         const { sender, message } = parsedData.payload;
         setMessages((prev) => {
           if (prev) return [...prev, { sender, message }];
@@ -120,8 +114,8 @@ const Sidebar = ({ socket, room }: { socket: WebSocket; room: string }) => {
       >
         <Exit />
       </span>
-      {messageDialog && messages && (
-        <span className="absolute left-[75px] bottom-0">
+      {messageDialog && (
+        <span className="absolute left-2 bottom-20">
           <Chat
             socket={socket}
             room={room}

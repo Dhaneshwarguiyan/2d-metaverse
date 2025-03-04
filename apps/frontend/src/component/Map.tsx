@@ -7,6 +7,7 @@ import SpaceOptions from "./SpaceOptions";
 import { useEffect, useRef, useState } from "react";
 
 interface propType {
+  room?:number;
   visitedId?:number;
   id: number;
   name: string;
@@ -14,7 +15,7 @@ interface propType {
   removeVisitedSpaces: (arg0: string) => void;
 }
 
-const Map = ({visitedId,id, name, type, removeVisitedSpaces }: propType) => {
+const Map = ({visitedId,id,room, name, type, removeVisitedSpaces }: propType) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const optionsDialogRef = useRef<HTMLDivElement>(null);
@@ -64,6 +65,7 @@ const Map = ({visitedId,id, name, type, removeVisitedSpaces }: propType) => {
           <span ref={optionsDialogRef}>
             {optionsDialog && (
               <SpaceOptions
+                room={room}
                 visitedSpaceId={visitedId}
                 id={id}
                 setOptionsDialog={setOptionsDialog}

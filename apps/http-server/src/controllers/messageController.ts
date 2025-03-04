@@ -10,7 +10,6 @@ export const setMessage = async (req:Request, res:Response) => {
           sender: sender,
           message: message,
           room: room,
-          read:[sender],
           userId: Number(id),
         },
       });
@@ -22,17 +21,12 @@ export const setMessage = async (req:Request, res:Response) => {
 
 export const getMessages = async (req:Request, res:Response) => {
     //this message will only be fetched first time the chat component got rendered
-    const { room } = req.body;
+    const { room } = req.params;
     try {
       const message = await prisma.messages.findMany({
         where: {
-          room: room,
+          room: Number(room),
         },
-        select:{
-          sender:true,
-          message:true,
-          read:true
-        }
       });
       if (message) {
         res.status(200).send(message);
@@ -43,23 +37,6 @@ export const getMessages = async (req:Request, res:Response) => {
       res.status(500).send({ message: "Internal Server Error" });
     }
   }
-
-  //bug in this fix it high priority
-export const setAsRead = async (req:Request,res:Response) => {
-  // try {
-  //   await prisma.messages.updateMany({
-  //     where:{
-  //       read:false
-  //     },
-  //     data:{
-  //       read:true
-  //     }
-  //   })
-  //   res.send({messag:"Successfully marked as true"});
-  // } catch (error) {
-  //   res.status(500).send({message:"Internal server error"});
-  // }
-}
 
 export const deleteAllMessages = async (req:Request,res:Response) => {
   try {

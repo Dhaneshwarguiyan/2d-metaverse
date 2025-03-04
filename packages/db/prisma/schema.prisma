@@ -32,9 +32,8 @@ model visitedSpaces {
 model Messages {
   id      Int     @id @default(autoincrement())
   message String
-  room    String
+  room    Int
   sender  String
-  read    String[]
   userId  Int
   user    User    @relation(fields: [userId], references: [id])
 }
