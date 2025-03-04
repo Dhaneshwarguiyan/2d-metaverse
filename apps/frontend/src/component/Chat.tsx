@@ -21,24 +21,12 @@ const Chat = ({
 }: {
   socket: WebSocket;
   room: string;
-  messages: messageType[];
+  messages ?: messageType[];
   setMessages: React.Dispatch<React.SetStateAction<messageType[] | undefined>>;
 }) => {
   const [text, setText] = useState<string>("");
   const scollRef = useRef<HTMLDivElement>(null);
   const name = useSelector((state: RootState) => state.user.info?.username);
-  // const fn = ()=>{
-  //   console.log("focus")
-  // }
-  // const fn1 = ()=>{
-  //   console.log("blur")
-  // }
-
-  // useEffect(()=>{
-  //   // if(inputRef.current){
-  //     inputRef.current?.addEventListener('focus',fn);
-  //     inputRef.current?.addEventListener('blur',fn1);
-  // },[])
 
   useEffect(() => {
     if (scollRef.current)
@@ -88,7 +76,7 @@ const Chat = ({
   };
 
   return (
-    <div className="backdrop-blur-sm hover:duration-500 h-auto flex flex-col justify-end rounded-lg">
+    <div className="bg-white hover:duration-500 h-auto flex flex-col justify-end rounded-lg">
       <div
         className="h-[400px] overflow-y-scroll pl-2 mt-2 scrollbar"
         ref={scollRef}

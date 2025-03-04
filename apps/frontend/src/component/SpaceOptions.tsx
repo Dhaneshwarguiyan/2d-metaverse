@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { updateSpace } from "../slices/renderSlice";
 
 const SpaceOptions = ({
+  room,
   visitedSpaceId,
   setOptionsDialog,
   id,
@@ -12,6 +13,7 @@ const SpaceOptions = ({
   removeVisitedSpaces,
 }: {
   setOptionsDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  room?:number;
   id:number;
   visitedSpaceId?:number;
   type: "owner" | "guest";
@@ -23,6 +25,7 @@ const SpaceOptions = ({
       await axios.post(
         `${import.meta.env.VITE_API}/api/v1/maps/delete`,
         {
+          room:room,
           mapId:id,
         },
         {
