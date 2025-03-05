@@ -55,9 +55,8 @@ jobs:
 
       - name: Copying
         run: |
-          cd .ssh
-          ls
-          cd ..
+          pwd
+          ls ~/.ssh
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
             mkdir hello
