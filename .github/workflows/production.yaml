@@ -55,8 +55,11 @@ jobs:
 
       - name: Copying
         run: |
-          scp -vvv -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}
-          ssh -vvv -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
+          cd .ssh
+          ls
+          cd ..
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
             mkdir hello
             ls
             rm -rf hello
