@@ -56,4 +56,4 @@ jobs:
       - name: Copying
         run: |
           scp -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}:/home/ubuntu
-          ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} "rm -rf apps && tar -xzf apps.tar.gz && export PATH=$HOME/.nvm/versions/node/$(node -v)/bin:$PATH && pm2 restart all"
+          ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} "rm -rf apps && tar -xzf apps.tar.gz && /home/ubuntu/.nvm/versions/node/v23.9.0/bin/pm2 restart all"
