@@ -26,18 +26,35 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       
+      - name: Setting up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Add known host
+        run: |
+          echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
       - name: Adding env in Database
         run: |
           echo "DATABASE_URL=${{ secrets.PROD_DATABASE_URL }}" >> packages/db/.env
 
       - name: Adding env in frontend,backend
         run: |
-          echo "VITE_API=http://${{ secrets.PRODUCTION_HOST }}:${{ secrets.PORT }}" >> apps/frontend/.env
-          echo "PORT=${{ secrets.PORT }}" >> apps/http-server/.env
+          echo "VITE_API=http://${{ secrets.PROD_HOST }}:${{ secrets.BACKEND_PORT }}" >> apps/frontend/.env
+          echo "PORT=${{ secrets.BACKEND_PORT }}" >> apps/http-server/.env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> apps/http-server/.env
 
       - name: Build frontend, backend
         run: pnpm run build
-        
-      - name: test
-        run: echo test
+      
+      - name: Compressing
+        run: tar -czf apps.tar.gz apps
+
+      - name: Copying
+        run: |
+          scp -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}:/home/${{ secrets.USER }}/apps.tar.gz
+          ssh -i ~/.ssh/id_rsa ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
+            cd /home/${{ secrets.USER }}
+            ls
