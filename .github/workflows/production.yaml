@@ -34,7 +34,7 @@ jobs:
 
       - name: Add known host
         run: |
-          echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          echo "${{ secrets.KNOWN_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Adding env in Database
         run: |
