@@ -55,11 +55,8 @@ jobs:
 
       - name: Copying
         run: |
-          pwd
-          ls ~/.ssh
-          scp -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}:/home/ubuntu
+          scp -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}
           ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
             mkdir hello
             ls
-            rm -rf hello
           EOF
