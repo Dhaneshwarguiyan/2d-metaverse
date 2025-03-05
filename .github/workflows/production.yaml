@@ -22,9 +22,6 @@ jobs:
         with:
           node-version: 23.9.0
           cache: "pnpm"
-
-      - name: Install Dependencies
-        run: pnpm install
       
       - name: Setting up SSH key
         run: |
