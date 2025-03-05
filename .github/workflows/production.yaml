@@ -54,7 +54,6 @@ jobs:
 
       - name: Copying
         run: |
-          scp -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}:/home/${{ secrets.USER }}/apps.tar.gz
+          scp -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}
           ssh -i ~/.ssh/id_rsa ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
-            cd /home/${{ secrets.USER }}
             ls
