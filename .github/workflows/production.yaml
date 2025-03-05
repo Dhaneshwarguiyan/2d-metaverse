@@ -1,0 +1,43 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.9.0
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install
+      
+      - name: Adding env in Database
+        run: |
+          echo "DATABASE_URL=${{ secrets.PROD_DATABASE_URL }}" >> packages/db/.env
+
+      - name: Adding env in frontend,backend
+        run: |
+          echo "VITE_API=http://${{ secrets.PRODUCTION_HOST }}:${{ secrets.PORT }}" >> apps/frontend/.env
+          echo "PORT=${{ secrets.PORT }}" >> apps/http-server/.env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> apps/http-server/.env
+
+      - name: Build frontend, backend
+        run: pnpm run build
+        
+      - name: test
+        run: echo test
