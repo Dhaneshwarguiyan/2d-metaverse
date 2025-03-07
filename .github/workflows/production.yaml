@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest  
+
       - name: Setting up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -17,17 +18,6 @@ jobs:
         run: |
           echo "${{ secrets.KNOWN_HOST }}" >> ~/.ssh/known_hosts
           cat ~/.ssh/known_hosts
-
-      - name: Adding env in Database
-        run: |
-          echo "DATABASE_URL=${{ secrets.PROD_DATABASE_URL }}" >> packages/db/.env
-
-      - name: Adding env in frontend,backend
-        run: |
-          echo "VITE_API=http://${{ secrets.PROD_HOST }}:${{ secrets.BACKEND_PORT }}" >> apps/frontend/.env
-          echo "PORT=${{ secrets.BACKEND_PORT }}" >> apps/http-server/.env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> apps/http-server/.env
-
       - name: Copying
         run: |
           ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
@@ -36,3 +26,13 @@ jobs:
             mkdir testfolder
             ls
           EOF
+
+      # - name: Adding env in Database
+      #   run: |
+      #     echo "DATABASE_URL=${{ secrets.PROD_DATABASE_URL }}" >> packages/db/.env
+
+      # - name: Adding env in frontend,backend
+      #   run: |
+      #     echo "VITE_API=http://${{ secrets.PROD_HOST }}:${{ secrets.BACKEND_PORT }}" >> apps/frontend/.env
+      #     echo "PORT=${{ secrets.BACKEND_PORT }}" >> apps/http-server/.env
+      #     echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> apps/http-server/.env
