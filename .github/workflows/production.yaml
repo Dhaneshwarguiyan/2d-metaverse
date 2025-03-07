@@ -17,9 +17,6 @@ jobs:
           port: 22
           script: |
             cd 2d-metaverse
-            npm -v
-            pm2 -v
-            npm install -g pnpm
             pnpm install
       # - name: Setting up SSH key
       #   run: |
