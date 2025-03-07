@@ -15,7 +15,8 @@ jobs:
           username: ubuntu
           key: ${{secrets.SSH_KEY}}
           port: 22
-          script: whoami
+          script: |
+            ls
       # - name: Setting up SSH key
       #   run: |
       #     mkdir -p ~/.ssh
