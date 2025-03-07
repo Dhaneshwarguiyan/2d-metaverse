@@ -51,9 +51,7 @@ const Game = ({
 
     const game = new Phaser.Game(config);
     game.scene.start("gameObj", data);
-    return () => {
-      game.destroy(true);
-    };
+
   }, [socket, name, room]);
   return (
     <div ref={gameContainerRef} className="w-screen h-screen relative"></div>
