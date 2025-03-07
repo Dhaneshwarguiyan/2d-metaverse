@@ -16,7 +16,8 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           port: 22
           script: |
-            ls
+            cd 2d-metaverse
+            pnpm install
       # - name: Setting up SSH key
       #   run: |
       #     mkdir -p ~/.ssh
