@@ -7,14 +7,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps: 
-      uses: appleboy/ssh-action@v1.2.1
-      with:
-        host: ${{ secrets.PROD_HOST }}
-        username: ubuntu
-        key: ${{secrets.SSH_KEY}}
-        port: 22
-        script: whoami
+    steps:
+      - name: apple boy ssh 
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ubuntu
+          key: ${{secrets.SSH_KEY}}
+          port: 22
+          script: whoami
       # - name: Setting up SSH key
       #   run: |
       #     mkdir -p ~/.ssh
