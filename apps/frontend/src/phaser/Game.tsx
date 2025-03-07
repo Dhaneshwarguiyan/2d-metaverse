@@ -20,7 +20,6 @@ const Game = ({
   spritesAssets: spriteAssetsType[];
   sprites: spriteType[];
 }) => {
-  console.log("inside game.tsx")
   const name = useSelector((state: RootState) => state.user.info?.username);
   const gameContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -34,8 +33,10 @@ const Game = ({
     //config object
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
-      width: 1680,
-      height: 870,
+      // width: 1680,
+      width:400,
+      height:400,
+      // height: 870,
       physics: {
         default: "arcade",
         arcade: {
@@ -57,7 +58,7 @@ const Game = ({
     };
   }, [socket, name, room]);
   return (
-    <div ref={gameContainerRef} className="w-screen h-screen relative"></div>
+    <div ref={gameContainerRef} className="w-[400px] h-[400px] relative"></div>
   );
 };
 
