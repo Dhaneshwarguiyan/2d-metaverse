@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import  {prisma} from "@repo/db/client";
+import  { prisma } from "@repo/db/client";
 
 
 export const createMaps =  async (req:Request,res:Response) => {
