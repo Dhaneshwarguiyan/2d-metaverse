@@ -16,10 +16,10 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           port: 22
           script: |
-            source ~/.bashrc 
+            export NVM_DIR=\$HOME/.nvm && source \$NVM_DIR/nvm.sh
             cd 2d-metaverse
             git pull origin main
-            /home/ubuntu/.nvm/versions/node/v23.9.0/bin/pnpm install
+            pnpm install
       # - name: Setting up SSH key
       #   run: |
       #     mkdir -p ~/.ssh
