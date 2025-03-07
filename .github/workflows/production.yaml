@@ -31,7 +31,8 @@ jobs:
       - name: Copying
         run: |
           ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
-            cd /home/ubuntu/2d-metaverse
-            git pull
-            pnpm install
+            cd /home/ubuntu
+            ls
+            mkdir testfolder
+            ls
           EOF
