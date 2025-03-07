@@ -19,7 +19,7 @@ jobs:
             source ~/.bashrc 
             cd 2d-metaverse
             git pull origin main
-            pnpm install
+            /home/ubuntu/.nvm/versions/node/v23.9.0/bin/pnpm install
       # - name: Setting up SSH key
       #   run: |
       #     mkdir -p ~/.ssh
