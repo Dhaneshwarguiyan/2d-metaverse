@@ -20,6 +20,7 @@ const Game = ({
   spritesAssets: spriteAssetsType[];
   sprites: spriteType[];
 }) => {
+  console.log("inside game.tsx")
   const name = useSelector((state: RootState) => state.user.info?.username);
   const gameContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -51,7 +52,9 @@ const Game = ({
 
     const game = new Phaser.Game(config);
     game.scene.start("gameObj", data);
-
+    return () => {
+      game.destroy(true);
+    };
   }, [socket, name, room]);
   return (
     <div ref={gameContainerRef} className="w-screen h-screen relative"></div>
