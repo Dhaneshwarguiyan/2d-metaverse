@@ -6,26 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 23.9.0
-          cache: "pnpm"
-
-      - name: Install Dependencies
-        run: pnpm install
-      
+    runs-on: ubuntu-latest  
       - name: Setting up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -47,18 +28,10 @@ jobs:
           echo "PORT=${{ secrets.BACKEND_PORT }}" >> apps/http-server/.env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> apps/http-server/.env
 
-      - name: Build frontend, backend
-        run: pnpm run build
-      
-      - name: Compressing
-        run: tar -czf apps.tar.gz apps
-
       - name: Copying
         run: |
-          scp -i ~/.ssh/id_rsa apps.tar.gz ${{secrets.USER}}@${{ secrets.PROD_HOST }}:/home/ubuntu
           ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
-            cd /home/ubuntu
-            ls
-            mkdir testfolder
-            ls
+            cd /home/ubuntu/2d-metaverse
+            git pull
+            pnpm install
           EOF
