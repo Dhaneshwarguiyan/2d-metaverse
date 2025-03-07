@@ -8,23 +8,30 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps: 
-      - name: Setting up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      uses: appleboy/ssh-action@v1.2.1
+      with:
+        host: ${{ secrets.PROD_HOST }}
+        username: ubuntu
+        key: ${{secrets.SSH_KEY}}
+        port: 22
+        script: whoami
+      # - name: Setting up SSH key
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
 
-      - name: Add known host
-        run: |
-          echo "${{ secrets.KNOWN_HOST }}" >> ~/.ssh/known_hosts
-          cat ~/.ssh/known_hosts
-      - name: Copying
-        run: |
-          ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
-            cd /home/ubuntu/2d-metaverse
-            git pull origin main
-            pnpm install
-          EOF
+      # - name: Add known host
+      #   run: |
+      #     echo "${{ secrets.KNOWN_HOST }}" >> ~/.ssh/known_hosts
+      #     cat ~/.ssh/known_hosts
+      # - name: Copying
+      #   run: |
+      #     ssh -i ~/.ssh/id_rsa -T ${{ secrets.USER }}@${{ secrets.PROD_HOST }} << 'EOF'
+      #       cd /home/ubuntu/2d-metaverse
+      #       git pull origin main
+      #       pnpm install
+      #     EOF
       # - name: Adding env in Database
       #   run: |
       #     echo "DATABASE_URL=${{ secrets.PROD_DATABASE_URL }}" >> packages/db/.env
