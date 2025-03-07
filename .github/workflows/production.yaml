@@ -17,6 +17,8 @@ jobs:
           port: 22
           script: |
             cd 2d-metaverse
+            git pull origin main
+            corepack enable || npm install -g pnpm
             pnpm install
       # - name: Setting up SSH key
       #   run: |
