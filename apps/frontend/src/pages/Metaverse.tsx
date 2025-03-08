@@ -66,7 +66,7 @@ const Metaverse = () => {
       dispatch(loginUser({ token, username }));
     }
     getMapDetails();
-    const wss = new WebSocket("ws://localhost:8080");
+    const wss = new WebSocket(`${import.meta.env.VITE_WS_URL}`);
     wss.onopen = () => {
       console.log("socket is opened");
       setSocket(wss);

@@ -57,7 +57,6 @@ export default class WorldScene extends Phaser.Scene {
     this.mapData.assets?.forEach((asset) => {
       this.load.image(`${asset.id.toString()}`, asset.path);
     });
-    console.log("inside preload")
 
     //load tileset
     this.load.tilemapTiledJSON("map", this.mapData.tileSet);
@@ -97,7 +96,6 @@ export default class WorldScene extends Phaser.Scene {
     return answer;
   };
   create() {
-    console.log("inside create")
     this.map = this.make.tilemap({ key: "map" });
     const tiles: Phaser.Tilemaps.Tileset[] = [];
     const layers: Phaser.Tilemaps.TilemapLayer[] = [];
