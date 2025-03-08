@@ -26,7 +26,7 @@ jobs:
                 git pull origin main
                 echo "DATABASE_URL=${{ secrets.PROD_DATABASE_URL }}" >> packages/db/.env
                 echo "VITE_API=http://${{ secrets.PROD_HOST }}:${{ secrets.BACKEND_PORT }}" >> apps/frontend/.env
-                echo "VITE_WS_URL=http://${{ secrets.PROD_HOST }}:${{ secrets.WS_PORT }}" >> apps/frontend/.env
+                echo "VITE_WS_URL=ws://${{ secrets.PROD_HOST }}:${{ secrets.WS_PORT }}" >> apps/frontend/.env
                 echo "PORT=${{ secrets.BACKEND_PORT }}" >> apps/http-server/.env
                 echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> apps/http-server/.env
                 pnpm install
