@@ -9,7 +9,7 @@ import { setMessage,getMessages,deleteAllMessages} from "../controllers/messageC
 //Set messages
 router.post("/",setMessage);
 
-router.get("/room",getMessages);
+router.post("/room",getMessages);
 
 router.delete('/delete',deleteAllMessages);
 

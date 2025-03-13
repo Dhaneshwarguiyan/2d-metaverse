@@ -9,19 +9,20 @@ export const setMessage = async (req:Request, res:Response) => {
         data: {
           sender: sender,
           message: message,
-          room: room,
+          room: Number(room),
           userId: Number(id),
         },
       });
       res.status(200).send({ message: "Message Sent successfully",response:response });
     } catch (error) {
+      console.log(error);
       res.status(500).send({ message: "Internal Server Error" });
     }
   }
 
 export const getMessages = async (req:Request, res:Response) => {
     //this message will only be fetched first time the chat component got rendered
-    const { room } = req.params;
+    const { room } = req.body;
     try {
       const message = await prisma.messages.findMany({
         where: {

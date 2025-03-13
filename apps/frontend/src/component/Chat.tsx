@@ -24,6 +24,7 @@ const Chat = ({
   messages ?: messageType[];
   setMessages: React.Dispatch<React.SetStateAction<messageType[] | undefined>>;
 }) => {
+  console.log(room);
   const [text, setText] = useState<string>("");
   const scollRef = useRef<HTMLDivElement>(null);
   const name = useSelector((state: RootState) => state.user.info?.username);
