@@ -36,25 +36,27 @@ const Chat = ({
 
   const handleMessage = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    updateMessages();
-    if (socket.readyState === WebSocket.OPEN) {
-      const messageData = {
-        type: "message",
-        payload: {
-          sender: name,
-          message: text,
-          room: room,
-        },
-      };
-      socket.send(JSON.stringify(messageData));
+    if(text !== ""){
+      updateMessages();
+      if (socket.readyState === WebSocket.OPEN) {
+        const messageData = {
+          type: "message",
+          payload: {
+            sender: name,
+            message: text,
+            room: room,
+          },
+        };
+        socket.send(JSON.stringify(messageData));
+      }
+      if (name) {
+        setMessages((prev) => {
+          if (prev) return [...prev, { sender: name, message: text }];
+          else return [{ sender: name, message: text }];
+        });
+      }
+      setText("");
     }
-    if (name) {
-      setMessages((prev) => {
-        if (prev) return [...prev, { sender: name, message: text }];
-        else return [{ sender: name, message: text }];
-      });
-    }
-    setText("");
   };
 
   const updateMessages = async () => {
