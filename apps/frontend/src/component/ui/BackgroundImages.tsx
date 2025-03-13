@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import bg2 from "../../assets/bg2.jpg";
 import bg4 from "../../assets/bg4.jpg";
-import bg6 from "../../assets/bg6.png";
+import bg6 from "../../assets/bg6.jpg";
 import bg7 from "../../assets/bg7.png";
 import bg8 from "../../assets/bg8.png";
 import { useEffect, useState } from "react";
