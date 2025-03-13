@@ -9,8 +9,8 @@ interface dataType {
 }
 
 export default class BootScene extends Phaser.Scene {
+  private loadingBox!: Phaser.GameObjects.Graphics;
   private loadingBar!: Phaser.GameObjects.Graphics;
-  private progressBox!: Phaser.GameObjects.Graphics;
   worldData!: dataType;
   mapData!: mapType;
   spriteAssets!: spriteAssetsType[];
@@ -28,13 +28,24 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.createLoadingBar();
+    const { width, height } = this.scale; // Get screen dimensions
 
-    // Update progress bar while assets are loading
+    // Background bar (static)
+    const barWidth = 320;
+    const barHeight = 30;
+    const barX = (width - barWidth) / 2; // Center horizontally
+    const barY = (height - barHeight) / 2; // Center vertically
+  
+    this.loadingBar = this.add.graphics();
+    this.loadingBox = this.add.graphics();
+    
+    this.loadingBox.fillStyle(0x222222, 0.8); // Dark background bar
+    this.loadingBox.fillRect(barX, barY, barWidth, barHeight);
+    this.add.text(barX,barY,"Loading...")
     this.load.on("progress", (value: number) => {
       this.loadingBar.clear();
       this.loadingBar.fillStyle(0xffffff, 1);
-      this.loadingBar.fillRect(160, 240, 320 * value, 30);
+      this.loadingBar.fillRect(barX, barY+30, barWidth * value, barHeight);
     });
         //assets such as tile image
         this.mapData.assets?.forEach((asset) => {
@@ -52,22 +63,8 @@ export default class BootScene extends Phaser.Scene {
           });
         });
     // Create loading screen
-    this.add.text(500,500,"loading...");
-    this.load.on("complete", () => {
-      this.scene.start("WorldScene1",this.worldData); // Switch after loading
-    });
-  }
-  createLoadingBar() {
-    this.progressBox = this.add.graphics();
-    this.loadingBar = this.add.graphics();
-
-    // Progress box background
-    this.progressBox.fillStyle(0x222222, 0.8);
-    this.progressBox.fillRect(150, 230, 340, 50);
-
-    // Loading text
-    this.add.text(250, 200, "Loading...", {
-      font: "20px Arial",
-    });
+    // this.load.on("complete", () => {
+    //   this.scene.start("WorldScene",this.worldData); // Switch after loading
+    // });
   }
 }

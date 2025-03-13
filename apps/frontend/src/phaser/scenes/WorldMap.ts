@@ -39,7 +39,7 @@ export default class WorldScene extends Phaser.Scene {
   walkSound!: Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound | Phaser.Sound.WebAudioSound;
 
   constructor() {
-    super('WorldScene1');
+    super('WorldScene');
     this.otherPlayer = new Map();
   }
   init(data: dataType) {
