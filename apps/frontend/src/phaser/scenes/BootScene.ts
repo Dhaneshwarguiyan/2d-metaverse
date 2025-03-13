@@ -5,9 +5,6 @@ export default class BootScene extends Phaser.Scene {
   constructor() {
     super({ key: "BootSene" });
   }
-  // init(data:WebSocket){
-  //     this.socket = data;
-  // }
   preload() {
     //load tiles imges
     this.load.image("tile1", "assets/magecity.png");

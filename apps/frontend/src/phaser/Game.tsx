@@ -34,8 +34,6 @@ const Game = ({
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       width: 1680,
-      // width:400,
-      // height:400,
       height: 870,
       physics: {
         default: "arcade",
