@@ -63,8 +63,8 @@ export default class BootScene extends Phaser.Scene {
           });
         });
     // Create loading screen
-    // this.load.on("complete", () => {
-    //   this.scene.start("WorldScene",this.worldData); // Switch after loading
-    // });
+    this.load.on("complete", () => {
+      this.scene.start("WorldScene",this.worldData); // Switch after loading
+    });
   }
 }
