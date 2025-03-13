@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "./ui/Button";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Footer = () => {
   const [feedback, setFeedback] = useState<string>("");
@@ -9,14 +10,14 @@ const Footer = () => {
   ) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API}/api/v1/feedback`,
         {
           feedback,
         },
       );
       setFeedback("");
-      console.log(response);
+      toast.success("Thanks for your time");
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +47,7 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <div className="text-xl font-bold">Feedback</div>
+          <div className="text-xl font-bold">Feedback | Suggestion</div>
           <div className="text-gray-400 text-sm mb-2">
             Your Feedback is valuable
           </div>
@@ -65,7 +66,7 @@ const Footer = () => {
           </span>
         </div>
       </div>
-      <div className="text-center pb-5 text-gray-300">Made by Dhaneshwar</div>
+      <div className="text-center pb-5 text-gray-300">Made by Dhaneshwar 💜</div>
     </div>
   );
 };
