@@ -13,7 +13,8 @@ const EnterNameDialog = () => {
   const [spaceName, setSpaceName] = useState<string>("");
   const mapId = useSelector((state:RootState)=>state.map.mapId);
   const dispatch = useDispatch();
-  const createSpace = async () => {
+  const createSpace = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
     try {
       //use mutation func from use query to dynamically update on any changes
       await axios.post(
@@ -72,6 +73,7 @@ const EnterNameDialog = () => {
         </div>
         <div className="flex flex-col gap-2 items-center">
           <div className="font-thin text-gray-700 w-full">Name</div>
+          <form action="">
           <input
             type="text"
             placeholder="Space Name"
@@ -80,10 +82,11 @@ const EnterNameDialog = () => {
               setSpaceName(e.target.value);
             }}
             className="border outline-none p-2 rounded-lg w-full"
-          />
-          <span onClick={createSpace}>
+            />
+          <button onClick={createSpace} type="submit">
             <Button text="Create" type="primary" />
-          </span>
+          </button>
+          </form>
         </div>
       </div>
     </div>

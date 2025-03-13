@@ -34,7 +34,8 @@ const Chat = ({
       scollRef.current.scrollTop = scollRef.current.scrollHeight;
   }, [text]);
 
-  const handleMessage = () => {
+  const handleMessage = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
     updateMessages();
     if (socket.readyState === WebSocket.OPEN) {
       const messageData = {
@@ -88,6 +89,7 @@ const Chat = ({
           })}
       </div>
       <div className="w-full flex gap-3 px-4 pb-4 pt-2 items-center">
+        <form action="">
         <input
           type="text"
           placeholder="message"
@@ -96,10 +98,11 @@ const Chat = ({
             setText(e.target.value);
           }}
           className="px-3 py-2 rounded-lg shadow-md border-2 outline-none"
-        />
-        <span onClick={handleMessage}>
+          />
+        <button onClick={handleMessage} type="submit">
           <Button text="Send" type="primary" />
-        </span>
+        </button>
+        </form>
       </div>
     </div>
   );

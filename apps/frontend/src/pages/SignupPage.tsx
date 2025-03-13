@@ -59,7 +59,8 @@ const SignupPage = () => {
     }
   }
 
-  const submitHandler = async () => {
+  const submitHandler = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
     const result = userSchema.safeParse(formData);
     if(result.success){
         signupCall();
@@ -89,6 +90,8 @@ const SignupPage = () => {
           <span className="text-4xl text-blue-800 font-extrabold">Pixelverse</span>
         </span>
       </div>
+      <form action="">
+
       <InputField
         label="Username"
         type="text"
@@ -97,7 +100,7 @@ const SignupPage = () => {
         errors={isFormValid}
         placeholder="username"
         handler={inputHandler}
-      />
+        />
       <InputField
         label="firstname"
         type="text"
@@ -106,7 +109,7 @@ const SignupPage = () => {
         errors={isFormValid}
         placeholder="firstname"
         handler={inputHandler}
-      />
+        />
       <InputField
         label="lastname"
         type="text"
@@ -115,7 +118,7 @@ const SignupPage = () => {
         errors={isFormValid}
         placeholder="lastname"
         handler={inputHandler}
-      />
+        />
       <InputField
         label="email"
         type="email"
@@ -124,7 +127,7 @@ const SignupPage = () => {
         errors={isFormValid}
         placeholder="jhondoe@gmail.com"
         handler={inputHandler}
-      />
+        />
       <InputField
         label="password"
         type="password"
@@ -133,10 +136,11 @@ const SignupPage = () => {
         errors={isFormValid}
         placeholder="password"
         handler={inputHandler}
-      />
-      <span onClick={submitHandler} className="mx-auto mt-4">
+        />
+      <button onClick={submitHandler} className="mx-auto mt-4" type="submit">
         <Button text="Submit" type="primary" />
-      </span>
+      </button>
+      </form>
     </div>
   );
 };

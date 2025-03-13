@@ -61,8 +61,8 @@ const LoginPage = () => {
     }
   }
 
-  const submitHandler = async () => {
-    setIsFormValid({...isFormValid})
+  const submitHandler = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
     const result = userSchema.safeParse(formData);
     if(result.success){
       signinCall();
@@ -89,6 +89,7 @@ const LoginPage = () => {
           <span className="text-2xl text-blue-800 font-extrabold">Pixelverse</span>
         </span>
       </div>
+      <form action="">
       <InputField
         label={"Email"}
         type="text"
@@ -107,9 +108,10 @@ const LoginPage = () => {
         placeholder={"Password"}
         handler={inputHandler}
       />
-      <span onClick={submitHandler} className="mx-auto mt-4">
+      <button onClick={submitHandler} className="mx-auto mt-4" type="submit">
         <Button text="Submit" type="primary" />
-      </span>
+      </button>
+      </form>
     </div>
   );
 };

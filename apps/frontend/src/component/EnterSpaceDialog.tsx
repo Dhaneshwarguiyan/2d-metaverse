@@ -14,7 +14,8 @@ const EnterSpaceDialog = () => {
   const [roomCode, setRoomCode] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const getSpace = async () => {
+  const getSpace = async (e: { preventDefault:()=>void } ) => {
+    e.preventDefault();
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API}/api/v1/maps/space/get/${roomCode}`,
@@ -90,6 +91,8 @@ const EnterSpaceDialog = () => {
         </div>
         <div className="flex flex-col gap-2 items-center">
           <div className="font-thin text-gray-700 w-full">Entry Code</div>
+          <form action="">
+
           <input
             type="text"
             placeholder="Your Entry Code"
@@ -98,10 +101,11 @@ const EnterSpaceDialog = () => {
               setRoomCode(e.target.value);
             }}
             className="border outline-none p-2 rounded-lg w-full"
-          />
-          <span onClick={getSpace}>
+            />
+          <button onClick={getSpace} type="submit">
             <Button text="Enter" type="primary" />
-          </span>
+          </button>
+          </form>
         </div>
       </div>
     </div>

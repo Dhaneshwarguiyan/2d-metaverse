@@ -51,6 +51,8 @@ const Footer = () => {
           <div className="text-gray-400 text-sm mb-2">
             Your Feedback is valuable
           </div>
+          <form action="">
+
           <textarea
             name="feedback"
             value={feedback}
@@ -60,10 +62,11 @@ const Footer = () => {
             onChange={(e) => {
               setFeedback(e.target.value);
             }}
-          ></textarea>
-          <span onClick={submitFeedback}>
+            ></textarea>
+          <button onClick={submitFeedback} type="submit">
             <Button text="Submit" type="secondary" />
-          </span>
+          </button>
+            </form>
         </div>
       </div>
       <div className="text-center pb-5 text-gray-300">Made by Dhaneshwar 💜</div>
