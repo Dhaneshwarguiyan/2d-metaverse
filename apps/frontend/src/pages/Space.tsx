@@ -90,7 +90,7 @@ const Space = () => {
       <NavPanel setActiveTab={setActiveTab} activeTab={activeTab} />
       {activeTab === "My Space" ? (
         <div className="flex flex-wrap gap-4">
-          {maps &&
+          {maps ?
             maps.map((map, key) => {
               return (
                 <Map
@@ -102,7 +102,10 @@ const Space = () => {
                   removeVisitedSpaces={removeVisitedSpaces}
                 />
               );
-            })}
+            })
+            :
+            <div className="flex items-center justify-center">Loading ...</div>
+            }
         </div>
       ) : (
         //not completed
