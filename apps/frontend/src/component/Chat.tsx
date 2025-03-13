@@ -82,7 +82,7 @@ const Chat = ({
   return (
     <div className="bg-white hover:duration-500 h-auto flex flex-col justify-end rounded-lg">
       <div
-        className="h-[400px] overflow-y-scroll pl-2 mt-2 scrollbar"
+        className="h-[400px] overflow-y-scroll pl-2 mt-2 pb-2 scrollbar"
         ref={scollRef}
       >
         {messages &&
