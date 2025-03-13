@@ -10,6 +10,17 @@ interface keyType {
   left: Phaser.Input.Keyboard.Key;
   right: Phaser.Input.Keyboard.Key;
 }
+
+interface dataType {
+  scene: string;
+  mapData: mapType;
+  spritesAssets: spriteAssetsType[];
+  sprites: spriteType[];
+  socket:WebSocket;
+  name:string;
+  room:string;
+}
+
 export default class WorldScene extends Phaser.Scene {
   socket!: WebSocket | null;
   player!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -21,53 +32,23 @@ export default class WorldScene extends Phaser.Scene {
   messageListener!: (event: { data: string }) => void;
   cursors: keyType | undefined;
   spawnArea: Phaser.Types.Tilemaps.TiledObject[] | undefined;
-  mapData: mapType;
-  spriteAssets: spriteAssetsType[];
-  sprites: spriteType[];
+  mapData!: mapType;
+  spriteAssets!: spriteAssetsType[];
+  sprites!: spriteType[];
   mySpriteId!: number;
   walkSound!: Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound | Phaser.Sound.WebAudioSound;
 
-  constructor({
-    scene,
-    mapData,
-    spritesAssets,
-    sprites,
-  }: {
-    scene: string;
-    mapData: mapType;
-    spritesAssets: spriteAssetsType[];
-    sprites: spriteType[];
-  }) {
-    super({ key: scene });
-    this.mapData = mapData;
-    this.spriteAssets = spritesAssets;
-    this.sprites = sprites;
+  constructor() {
+    super('WorldScene1');
     this.otherPlayer = new Map();
   }
-
-  init(data: { socket: WebSocket; name: string; room: string }) {
+  init(data: dataType) {
     this.socket = data.socket;
     this.name = data.name;
     this.room = data.room;
-  }
-
-  preload() {
-    //assets such as tile image
-    this.load.audio('walking','assets/walking.mp3');
-    this.mapData.assets?.forEach((asset) => {
-      this.load.image(`${asset.id.toString()}`, asset.path);
-    });
-
-    //load tileset
-    this.load.tilemapTiledJSON("map", this.mapData.tileSet);
-
-    //load character
-    this.spriteAssets.forEach((sprite) => {
-      this.load.spritesheet(`${sprite.key.toString()}-sprite`, sprite.path, {
-        frameWidth: sprite.frameWidth,
-        frameHeight: sprite.frameHeight,
-      });
-    });
+    this.mapData = data.mapData;
+    this.spriteAssets = data.spritesAssets;
+    this.sprites = data.sprites;
   }
   generateRandomPosition() {
     if (this.spawnArea) {
@@ -103,7 +84,6 @@ export default class WorldScene extends Phaser.Scene {
     const mySprite = this.sprites[this.mySpriteId];
     this.spawnArea = this.map.getObjectLayer("spawn")?.objects;
     //music
-    this.walkSound = this.sound.add('walking')
 
     //loading assetsl into the screen
     this.mapData.assets?.forEach((assets) => {

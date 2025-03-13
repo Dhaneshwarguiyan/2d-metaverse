@@ -3,9 +3,17 @@ import Phaser from "phaser";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { mapType } from "../types/types";
-import WorldScene from "./scenes/WorldMap1";
+import WorldScene from "./scenes/WorldMap";
 import { spriteType } from "../types/types";
 import { spriteAssetsType } from "../types/types";
+import BootScene from "./scenes/BootScene";
+
+// interface dataType {
+//   scene: string;
+//   mapData: mapType;
+//   spritesAssets: spriteAssetsType[];
+//   sprites: spriteType[];
+// }
 
 const Game = ({
   mapData,
@@ -23,13 +31,13 @@ const Game = ({
   const name = useSelector((state: RootState) => state.user.info?.username);
   const gameContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const gameObj = new WorldScene({
-      scene: "gameObj",
-      mapData: mapData,
-      spritesAssets,
-      sprites,
-    });
-    const data = { socket: socket, name: name, room: room };
+    // const gameObj = new WorldScene({
+    //   scene: "gameObj",
+    //   mapData: mapData,
+    //   spritesAssets,
+    //   sprites,
+    // });
+    const data = { socket: socket, name: name, room: room ,mapData,spritesAssets,sprites};
     //config object
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
@@ -45,12 +53,12 @@ const Game = ({
         mode: Phaser.Scale.ENVELOP,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [gameObj],
+      scene: [BootScene,WorldScene],
       parent: gameContainerRef.current || undefined,
     };
 
     const game = new Phaser.Game(config);
-    game.scene.start("gameObj", data);
+    game.scene.start("BootScene", data);
     return () => {
       game.destroy(true);
     };
