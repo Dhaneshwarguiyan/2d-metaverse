@@ -53,7 +53,7 @@ const Map = ({visitedId,id,room, name, type, removeVisitedSpaces }: propType) =>
         onClick={handleSpace}
       />
       <div className="flex justify-between px-2 mt-2">
-        <span>{name}-{id}</span>
+        <span>{name} room code:{id}</span>
         <span className="relative">
           <span
             onClick={() => {
