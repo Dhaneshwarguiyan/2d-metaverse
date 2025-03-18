@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { updateSpace } from "../slices/renderSlice";
 import { RootState } from "../store/store";
+import { generateRandomString } from  '../utils/randomString';
 
 //code validation to be added in here
 const EnterNameDialog = () => {
@@ -14,13 +15,15 @@ const EnterNameDialog = () => {
   const mapId = useSelector((state:RootState)=>state.map.mapId);
   const dispatch = useDispatch();
   const createSpace = async (e: { preventDefault: () => void; }) => {
+    const roomCode:string = generateRandomString(8);
     e.preventDefault();
     try {
       //use mutation func from use query to dynamically update on any changes
       await axios.post(
         `${import.meta.env.VITE_API}/api/v1/maps/spaces`,
         {
-          room: spaceName,
+          name: spaceName,
+          roomCode: roomCode, //generate a random 
           mapId: mapId,
         },
         {
@@ -72,8 +75,8 @@ const EnterNameDialog = () => {
           </span>
         </div>
         <div className="flex flex-col gap-2 items-center">
-          <div className="font-thin text-gray-700 w-full">Name</div>
-          <form action="">
+          <div className="font-thin text-gray-500 w-full">Name</div>
+          <form className="w-full">
           <input
             type="text"
             placeholder="Space Name"
@@ -83,7 +86,7 @@ const EnterNameDialog = () => {
             }}
             className="border outline-none p-2 rounded-lg w-full"
             />
-          <button onClick={createSpace} type="submit">
+          <button onClick={createSpace} type="submit" className="mt-2">
             <Button text="Create" type="primary" />
           </button>
           </form>

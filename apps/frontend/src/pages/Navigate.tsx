@@ -31,7 +31,7 @@ const Navigate = () => {
   }, []);
 
   return (
-    <div className="w-[100vw] overflow-hidden">
+    <div className="w-[100vw] h-full overflow-hidden">
       {entryCodeDialog && <EnterSpaceDialog />}
       {createSpaceDialog && <CreateSpaceDialog />}
       {enterNameDialog && <EnterNameDialog/>}

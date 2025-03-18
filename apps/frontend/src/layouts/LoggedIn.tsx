@@ -19,7 +19,7 @@ const LoggedIn = () => {
   }, []);
 
   return (
-    <div className="bg-white">
+    <div className="h-full bg-white">
       <Outlet />
     </div>
   );

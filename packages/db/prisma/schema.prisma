@@ -20,6 +20,18 @@ model User {
   visitedSpaces visitedSpaces[] //include recently visited rooms "recentlyVisited spaces"
 }
 
+model Rooms {
+  id     Int    @id @default(autoincrement())
+  name   String
+  roomCode  String @unique 
+  mapId  Int
+  map    Maps   @relation(fields: [mapId], references: [id])
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+  visitedSpaces visitedSpaces[]
+  createdAt DateTime @default(now())
+}
+
 model visitedSpaces {
   id Int @id @default(autoincrement())
   userId Int
@@ -32,7 +44,7 @@ model visitedSpaces {
 model Messages {
   id      Int     @id @default(autoincrement())
   message String
-  room    Int
+  roomCode    String
   sender  String
   userId  Int
   user    User    @relation(fields: [userId], references: [id])
@@ -45,16 +57,6 @@ model Maps {
   rooms   Rooms[]
   layers  MapLayers[]
   assets  MapAssets[]
-}
-
-model Rooms {
-  id     Int    @id @default(autoincrement())
-  room   String
-  mapId  Int
-  map    Maps   @relation(fields: [mapId], references: [id])
-  userId Int
-  user   User   @relation(fields: [userId], references: [id])
-  visitedSpaces visitedSpaces[]
 }
 
 model MapLayers {
