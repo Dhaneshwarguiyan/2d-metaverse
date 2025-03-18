@@ -1,5 +1,5 @@
 import NavPanel from "../component/NavPanel";
-import Map from "../component/Map";
+import Card from "../component/Card";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,28 +7,28 @@ import { RootState } from "../store/store";
 import { updateSpace } from "../slices/renderSlice";
 
 // const maps = [{thumbnail:map,name:"My Map 1"}]
-interface mapType {
-  room: string;
-  id: number;
-  mapId: number;
-  userId: number;
+interface userType {
+  firstName:string;
+  lastName:string;
+  username: string;
 }
 interface roomsType{
   id:number;
   room:string;
   mapid:number;
   userId:number;
+  user:userType;
+  createdAt:string;
 }
 interface visitedMapsType {
   id:number;
   room:roomsType;
-  roomId:number;
-  userId:number;
+  user:userType;
 }
 
 const Space = () => {
 
-  const [maps, setMap] = useState<mapType[]>();
+  const [maps, setMap] = useState<roomsType[]>();
   const [visitedMaps,setVisitedMaps] = useState<visitedMapsType[]>([]);
   const [activeTab, setActiveTab] = useState<string>("My Space");
   const space = useSelector((state: RootState) => state.render.spaces);
@@ -59,6 +59,7 @@ const Space = () => {
           },
         },
       );
+      console.log(response.data);
       setVisitedMaps(response.data);
     } catch (error) {
       console.log(error);
@@ -89,17 +90,17 @@ const Space = () => {
     <div className="w-[1180px] mx-auto">
       <NavPanel setActiveTab={setActiveTab} activeTab={activeTab} />
       {activeTab === "My Space" ? (
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-x-5 gap-y-5">
           {maps ?
             maps.map((map, key) => {
               return (
-                <Map
-                  room={map.id}
-                  name={map.room}
-                  id={map.id}
-                  key={key}
+                <Card
+                  user={map.user}
+                  room={map}
+                  //user
                   type="owner"
                   removeVisitedSpaces={removeVisitedSpaces}
+                  key={key}
                 />
               );
             })
@@ -109,17 +110,20 @@ const Space = () => {
         </div>
       ) : (
         //not completed
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap ">
           {visitedMaps &&
             visitedMaps.map((rooms, key) => {
               return (
-                <Map
-                  id={rooms.room.id}
+                <Card
+                  //room id
+                  user={rooms.user}
+                  room={rooms.room}
+                  //visited room id
                   visitedId={rooms.id}
-                  name={rooms.room.room}
-                  key={key}
+                  //room changed to name
                   type="guest"
                   removeVisitedSpaces={removeVisitedSpaces}
+                  key={key}
                 />
               );
             })}
@@ -128,5 +132,7 @@ const Space = () => {
     </div>
   );
 };
+
+
 
 export default Space;

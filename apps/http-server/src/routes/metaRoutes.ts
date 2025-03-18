@@ -5,14 +5,14 @@ const router:Router = express.Router();
 
 //update the recently visited space
 //transaction inconsistency
-router.get('/visitSpace/:spaceId',async (req,res)=>{
-    const {spaceId} = req.params;
+router.get('/visitSpace/:roomId',async (req,res)=>{
+    const {roomId} = req.params;
     const userId = req.userId;
     try {
         const myVisitedSpaces = await prisma.visitedSpaces.findMany({
             where:{
                 userId:Number(userId),
-                roomId:Number(spaceId)
+                roomId:Number(roomId)
             },
         })
         let recentlyVisitedSpace;
@@ -21,7 +21,7 @@ router.get('/visitSpace/:spaceId',async (req,res)=>{
             recentlyVisitedSpace = await prisma.visitedSpaces.create({
                 data:{
                     userId:Number(userId),
-                    roomId:Number(spaceId)
+                    roomId:Number(roomId)
                 }
             })
         }
@@ -35,7 +35,7 @@ router.get('/visitSpace/:spaceId',async (req,res)=>{
                 },
                 data:{
                     userId:Number(userId),
-                    roomId:Number(spaceId)
+                    roomId:Number(roomId)
                 }
             })
         }
@@ -47,12 +47,11 @@ router.get('/visitSpace/:spaceId',async (req,res)=>{
 })
 
 router.get('/removeSpace/:id',async (req,res)=>{
-    const id = req.params.id;
-    console.log(id);
+    const spaceId = req.params.id;
     try {
         const removedVisited = await prisma.visitedSpaces.delete({
             where:{
-                id:Number(id)
+                id:Number(spaceId)
             }
         })
         res.send(removedVisited);

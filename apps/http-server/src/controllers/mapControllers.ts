@@ -52,11 +52,12 @@ export const createMaps =  async (req:Request,res:Response) => {
 
 export const createSpaces = async (req:Request,res:Response) => {
     try {
-      const { room, mapId } = req.body;
+      const { spaceName, mapId } = req.body;
       const id = req.userId;
       const response = await prisma.rooms.create({
         data: {
-          room,
+          //it will be name and room will default to uuid
+          room:spaceName,
           mapId,
           userId: Number(id),
         },
@@ -71,6 +72,7 @@ export const createSpaces = async (req:Request,res:Response) => {
 //delete messages also with the room incomplete
 export const deleteSpaces = async(req:Request,res:Response)=>{
     try {
+      //here room is the id of the room
       const { mapId,room } = req.body;
       const id = req.userId;
       const visitedSpaces = prisma.visitedSpaces.deleteMany({
@@ -86,7 +88,7 @@ export const deleteSpaces = async(req:Request,res:Response)=>{
       const rooms = prisma.rooms.delete({
         where:{
           id:mapId,
-          userId:Number(id)
+          userId:Number(id) //so that user is not able to delete others map
         }
       })
       const response = await prisma.$transaction([messages,visitedSpaces,rooms])

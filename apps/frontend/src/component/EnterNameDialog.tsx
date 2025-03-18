@@ -20,7 +20,7 @@ const EnterNameDialog = () => {
       await axios.post(
         `${import.meta.env.VITE_API}/api/v1/maps/spaces`,
         {
-          room: spaceName,
+          spaceName: spaceName,
           mapId: mapId,
         },
         {
