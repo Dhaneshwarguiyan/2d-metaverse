@@ -69,7 +69,8 @@ router.get('/all',async (req,res) => {
                 userId:Number(userId)
             },
             include:{
-                room:true
+                room:true,
+                user:true
             }
         })
         res.send(response);

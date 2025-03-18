@@ -6,7 +6,7 @@ interface parseDateType {
 
 export const parseDate = (date: string):string => {
     const parsedDate:parseDateType = getFormat(date);
-    const newDate = `${parsedDate.day} ${month.get(parsedDate.month)}, ${parsedDate.year}`
+    const newDate = `${month.get(parsedDate.month)} ${parsedDate.day}, ${parsedDate.year}`
     return newDate;
 }
 
@@ -20,7 +20,7 @@ const month = new Map([
     ["06", "Jun"],
     ["07", "Jul"],
     ["08", "Aug"],
-    ["09", "Sep"],
+    ["09", "Sept"],
     ["10", "Oct"],
     ["11", "Nov"],
     ["12", "Dec"],

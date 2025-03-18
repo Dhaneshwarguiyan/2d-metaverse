@@ -1,20 +1,13 @@
 import profile from '../assets/profile.png';
 import card from '../assets/map1.png';
 import { useDispatch } from 'react-redux';
-import { initMap } from '../slices/mapSlice';
 import { useNavigate } from 'react-router-dom';
 import { updateSpace } from '../slices/renderSlice';
 import Delete from '../icons/Delete';
+import Copy from '../icons/Copy';
 import axios from 'axios';
-
-// interface propType {
-//     room?:number;
-//     visitedId?:number;
-//     id: number;
-//     name: string;
-//     type: "owner" | "guest";
-//     removeVisitedSpaces: (arg0: string) => void;
-//   }
+import { parseDate } from '../utils/parseDate';
+import { toast } from 'react-toastify';
 
   interface userType {
     firstName:string;
@@ -24,7 +17,8 @@ import axios from 'axios';
 
   interface roomsType{
     id:number;
-    room:string;
+    name:string;
+    roomCode:string;
     mapid:number;
     userId:number;
     user:userType;
@@ -42,8 +36,8 @@ import axios from 'axios';
 const Card = ({user,room, visitedId, type, removeVisitedSpaces }: cardPropType) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    console.log(user);
-    //delte space
+    const createdAt = parseDate(room.createdAt);
+    //delete space
     const removeDeleteSpace = () => {
         if (type === "owner") {
           deleteSpace();
@@ -53,17 +47,21 @@ const Card = ({user,room, visitedId, type, removeVisitedSpaces }: cardPropType) 
       };
     //handle space
     const handleSpace = () => {
-        navigate(`/${room.id}`); //check this is this the name or the id
+        navigate(`/${room.roomCode}`); //check this is this the name or the id
     };
-
+    //copy to clipboard
+    const copyToClipBoard = () => {
+      navigator.clipboard.writeText(room.roomCode);
+      toast.success('Copied !')
+    }
     //delete space
     const deleteSpace = async () => {
         try {
           await axios.post(
             `${import.meta.env.VITE_API}/api/v1/maps/delete`,
             {
-              room:room,
-              mapId:room.id,
+              roomCode:room.roomCode, //for deleting messages
+              roomId:room.id,
             },
             {
               headers: {
@@ -77,27 +75,27 @@ const Card = ({user,room, visitedId, type, removeVisitedSpaces }: cardPropType) 
         }
       };
   return (
-    <div className=' p-[5px] rounded-xl tracking-normal cursor-pointer' onClick={handleSpace}>
-        <img src={card} alt="" className='rounded-lg w-[270px] h-[170px] object-cover'/>
-        <div className='pt-2 px-1'>
+    <div className='bg-gray-100 p-[10px] rounded-xl tracking-normal shadow-md'>
+        <img src={card} alt="" className='rounded-lg w-[280px] h-[170px] object-cover cursor-pointer' onClick={handleSpace}/>
+        <div className='mt-3 px-1'>
             <div className='flex justify-between w-full'>
                 <div className='flex items-center gap-2'>
-                    <div className='text-[18px] font-[400]'>{name}</div>
-                    <div className='text-[14px] text-slate-600'>#{id}</div>
+                    <div className='text-[18px] font-[400]'>{room.name}</div>
+                    <div className='text-[14px] text-slate-500 flex items-center cursor-pointer' onClick={copyToClipBoard}>(<Copy />{room.roomCode})</div>
                 </div>
-                <div onClick={removeDeleteSpace} className='text-red-500'><Delete /></div>
+                <div onClick={removeDeleteSpace} className='text-red-500 cursor-pointer'><Delete /></div>
             </div>
-            <div className='flex justify-between items-end px-1'>
+            <div className='flex justify-between items-end'>
                 <div className='flex gap-2 pt-2'>
                     <img src={profile} alt="profile" className='rounded-full w-[30px] h-[30px]' />
                     <div className='flex flex-col'>
-                        <div className='text-[14px] font-medium text-black leading-4'>Dhane david</div>
-                        <div className='text-[14px] text-gray-600'>@tourist</div>
+                        <div className='text-[14px] font-medium text-black leading-4'>{user.firstName}</div>
+                        <div className='text-[14px] text-gray-600'>@{user.username}</div>
                     </div>
                 </div>
                 <div className='text-gray-600 flex flex-col items-end'>
                     <div className='leading-3 text-[14px]'>created on:</div>
-                    <div className='text-[14px]'>Sept 26,2025</div>
+                    <div className='text-[14px]'>{createdAt}</div>
                 </div>
             </div>
         </div>

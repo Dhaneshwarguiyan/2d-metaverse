@@ -24,10 +24,10 @@ router.post('/delete', deleteSpaces)
 router.get("/spaces/all", getUserSpaces);
 
 //check if the space is present or not
-router.get("/space/get/:spaceId",checkSpace);
+router.get("/space/get/:roomCode",checkSpace);
 
 //to get the map based on the room
-router.get("/space/:spaceId", getMap);
+router.get("/space/:roomCode", getMap);
 
 //Not yet implemented completely
 router.get("/all", getAllMaps);

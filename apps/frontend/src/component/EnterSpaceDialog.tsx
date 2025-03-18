@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { closeEntryCodeDialog } from "../slices/toggleSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { initMap } from "../slices/mapSlice";
+// import { initMap } from "../slices/mapSlice";
 import { toast } from "react-toastify";
 
 //code validation to be added in here
@@ -18,7 +18,7 @@ const EnterSpaceDialog = () => {
     e.preventDefault();
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API}/api/v1/maps/space/get/${roomCode}`,
+        `${import.meta.env.VITE_API}/api/v1/maps/space/get/${roomCode}`, //roomCode is fine but it requires id of the room
         {
           headers: {
             Authorization: `${localStorage.getItem("token")}`,
@@ -26,8 +26,8 @@ const EnterSpaceDialog = () => {
         },
       );
       if (response.data.message) {
-        addVisitedSpaces(roomCode);
-        dispatch(initMap(roomCode));
+        addVisitedSpaces(response.data.data.id);
+        // dispatch(initMap(roomCode));
         navigate(`/${roomCode}`);
         closeDialog();
       } else {
@@ -40,7 +40,7 @@ const EnterSpaceDialog = () => {
 
   const addVisitedSpaces = async (id:string) => {
     try {
-      const response = await axios.get(
+       await axios.get(
         `${import.meta.env.VITE_API}/api/v1/visitedSpaces/visitSpace/${id}`,
         {
           headers: {
@@ -48,7 +48,6 @@ const EnterSpaceDialog = () => {
           },
         }
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +79,7 @@ const EnterSpaceDialog = () => {
   return (
     <div className="w-screen h-screen absolute flex justify-center items-center backdrop-blur-sm z-20">
       <div
-        className="w-[350px] border p-4 rounded-lg shadow-lg"
+        className="bg-white w-[350px] border p-4 rounded-lg shadow-lg"
         ref={dialogContainerRef}
       >
         <div className="flex justify-between items-center mb-3">
@@ -90,8 +89,8 @@ const EnterSpaceDialog = () => {
           </span>
         </div>
         <div className="flex flex-col gap-2 items-center">
-          <div className="font-thin text-gray-700 w-full">Entry Code</div>
-          <form action="">
+          <div className="font-light text-gray-500 w-full text-[16px]">Entry Code</div>
+          <form className="w-full">
 
           <input
             type="text"
@@ -102,7 +101,7 @@ const EnterSpaceDialog = () => {
             }}
             className="border outline-none p-2 rounded-lg w-full"
             />
-          <button onClick={getSpace} type="submit">
+          <button onClick={getSpace} type="submit" className="mt-2">
             <Button text="Enter" type="primary" />
           </button>
           </form>

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 interface propType {
   icon?: ReactElement;
-  text?: string;
+  text: string;
 }
 
 const DropDownTile = ({ icon, text }: propType) => {
@@ -26,10 +26,10 @@ const DropDownTile = ({ icon, text }: propType) => {
 
   return (
     <div
-      className={`flex gap-2 text-sm items-center text-gray-600 ${icon && "border-t pt-3"}`}
+      className={`flex gap-2 text-sm items-center text-gray-800 ${icon && "border-t pt-3"}`}
       onClick={clickHandler}
     >
-      <span>{icon}</span>
+      <span className="pl-1">{icon}</span>
       <span>{text}</span>
     </div>
   );

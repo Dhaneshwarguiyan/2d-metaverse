@@ -9,7 +9,7 @@ export const setMessage = async (req:Request, res:Response) => {
         data: {
           sender: sender,
           message: message,
-          room: Number(room),
+          roomCode: room,
           userId: Number(id),
         },
       });
@@ -26,7 +26,7 @@ export const getMessages = async (req:Request, res:Response) => {
     try {
       const message = await prisma.messages.findMany({
         where: {
-          room: Number(room),
+          roomCode: room,
         },
       });
       if (message) {

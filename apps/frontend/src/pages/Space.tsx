@@ -14,7 +14,8 @@ interface userType {
 }
 interface roomsType{
   id:number;
-  room:string;
+  name:string;
+  roomCode:string;
   mapid:number;
   userId:number;
   user:userType;
@@ -59,7 +60,6 @@ const Space = () => {
           },
         },
       );
-      console.log(response.data);
       setVisitedMaps(response.data);
     } catch (error) {
       console.log(error);
@@ -87,17 +87,16 @@ const Space = () => {
   }, [space]);
 
   return (
-    <div className="w-[1180px] mx-auto">
+    <div className="w-[1250px] h-full mx-auto">
       <NavPanel setActiveTab={setActiveTab} activeTab={activeTab} />
       {activeTab === "My Space" ? (
-        <div className="flex flex-wrap gap-x-5 gap-y-5">
+        <div className="flex flex-wrap gap-x-3 gap-y-5">
           {maps ?
             maps.map((map, key) => {
               return (
                 <Card
                   user={map.user}
                   room={map}
-                  //user
                   type="owner"
                   removeVisitedSpaces={removeVisitedSpaces}
                   key={key}
@@ -110,17 +109,14 @@ const Space = () => {
         </div>
       ) : (
         //not completed
-        <div className="flex flex-wrap ">
+        <div className="flex flex-wrap gap-x-3 gap-y-5">
           {visitedMaps &&
-            visitedMaps.map((rooms, key) => {
+            visitedMaps.map((visitedRooms, key) => {
               return (
                 <Card
-                  //room id
-                  user={rooms.user}
-                  room={rooms.room}
-                  //visited room id
-                  visitedId={rooms.id}
-                  //room changed to name
+                  user={visitedRooms.user}
+                  room={visitedRooms.room}
+                  visitedId={visitedRooms.id}
                   type="guest"
                   removeVisitedSpaces={removeVisitedSpaces}
                   key={key}

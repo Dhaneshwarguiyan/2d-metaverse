@@ -52,12 +52,13 @@ export const createMaps =  async (req:Request,res:Response) => {
 
 export const createSpaces = async (req:Request,res:Response) => {
     try {
-      const { spaceName, mapId } = req.body;
+      const { roomCode,name, mapId } = req.body;
       const id = req.userId;
       const response = await prisma.rooms.create({
         data: {
           //it will be name and room will default to uuid
-          room:spaceName,
+          name:name,
+          roomCode:roomCode,
           mapId,
           userId: Number(id),
         },
@@ -73,21 +74,22 @@ export const createSpaces = async (req:Request,res:Response) => {
 export const deleteSpaces = async(req:Request,res:Response)=>{
     try {
       //here room is the id of the room
-      const { mapId,room } = req.body;
+      //changed to room(string i.e #s2jI5c.
+      const { roomCode,roomId } = req.body;
       const id = req.userId;
       const visitedSpaces = prisma.visitedSpaces.deleteMany({
         where:{
-            roomId:room
+            roomId:roomId
         }
       })
       const messages = prisma.messages.deleteMany({
         where:{
-          room:Number(room)
+          roomCode:roomCode
         }
       })
       const rooms = prisma.rooms.delete({
         where:{
-          id:mapId,
+          id:roomId,
           userId:Number(id) //so that user is not able to delete others map
         }
       })
@@ -105,6 +107,9 @@ export const getUserSpaces = async (req:Request,res:Response) => {
         where: {
           userId: Number(userId),
         },
+        include:{
+          user:true
+        }
       });
       res.send(response);
     } catch (error) {
@@ -115,11 +120,10 @@ export const getUserSpaces = async (req:Request,res:Response) => {
 
 export const checkSpace =  async (req:Request,res:Response) => {
     try {
-      const spaceId = req.params.spaceId;
-      console.log(spaceId);
+      const roomCode = req.params.roomCode;
       const response = await prisma.rooms.findUnique({
         where: {
-          id: Number(spaceId),
+          roomCode: roomCode,
         },
       });
       if (response) {
@@ -134,10 +138,10 @@ export const checkSpace =  async (req:Request,res:Response) => {
 
 export const getMap = async (req:Request,res:Response) => {
     try {
-      const spaceId = req.params.spaceId;
+      const { roomCode } = req.params;
       const response1 = await prisma.rooms.findUnique({
         where: {
-          id: Number(spaceId),
+          roomCode: roomCode,
         },
         select: {
           mapId: true,

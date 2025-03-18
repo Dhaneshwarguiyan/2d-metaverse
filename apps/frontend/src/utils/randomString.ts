@@ -1,8 +1,8 @@
 export const generateRandomString = (len: number) => {
-  const random = "abcdefghijklmnopqrstuvwxyz1234567890";
+  const random = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let answer = "";
   for (let i = 0; i < len; i++) {
-    answer = answer + random[Math.floor(Math.random() * 36)];
+    answer = answer + random[Math.floor(Math.random() * random.length)];
   }
   return answer;
 };
