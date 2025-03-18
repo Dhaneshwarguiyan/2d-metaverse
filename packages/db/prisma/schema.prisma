@@ -23,6 +23,7 @@ model User {
 model Rooms {
   id     Int    @id @default(autoincrement())
   name   String
+  roomCode  String @unique 
   mapId  Int
   map    Maps   @relation(fields: [mapId], references: [id])
   userId Int
@@ -43,7 +44,7 @@ model visitedSpaces {
 model Messages {
   id      Int     @id @default(autoincrement())
   message String
-  room    Int
+  roomCode    String
   sender  String
   userId  Int
   user    User    @relation(fields: [userId], references: [id])
