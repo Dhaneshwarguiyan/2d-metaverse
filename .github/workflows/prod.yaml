@@ -1,0 +1,15 @@
+name: Deploy to ec2
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+
+      - name: ssh into ec2
+        uses: appleboy/ssh-action@v1.2.1

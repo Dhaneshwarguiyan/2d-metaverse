@@ -9,6 +9,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
+    "postinstall": "prisma generate",
     "db-seed": "prisma db seed",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev"

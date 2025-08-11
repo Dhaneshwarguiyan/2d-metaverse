@@ -12,10 +12,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@repo/db":"workspace:*",
+    "@repo/db": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
